@@ -1,3 +1,4 @@
+
 #include<stdio.h>
 
 #include<netinet/in.h>
@@ -26,7 +27,14 @@ void shell(int sockfd){
         // read incoming message 
         read(sockfd,buff,sizeof(buff));
         printf("client@root$_ %s",buff);
+        int response = system(buff);
         bzero(buff,MESSAGEMAXSIZE);
+        
+        if(response ==0){
+            strcpy(buff, "Command executed");
+        }else{
+            strcpy(buff, "Command not found");
+        }    
         n=0;
        // while((buff[n++]=getchar())!='\n');
         //write server message
@@ -84,3 +92,6 @@ int main(){
     shell(connfd);
     close(sockfd);
 }
+
+
+
